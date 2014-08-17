@@ -1,0 +1,523 @@
+Index - Indice
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  Documentaci¢ en catal… - - - - - - - - - l¡nia 11
+
+  Documentaci¢n en espa¤ol - - - - - - - - l¡nea 183
+
+  English documentation  - - - - - - - - - line 356
+
+
+ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+º                        Documentaci¢ en catal…                       º
+ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+Per a quŠ serveix aquesta DLL?
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  Aquesta DLL proporciona una funci¢ REXX (Number) per a OS/2 que
+  retorna el cardinal d'una quantitat (‚s a dir, un n£mero expressat en
+  lletres) en catal…, espanyol o anglŠs; pel catal… i espanyol el n£mero
+  es pot obtenir en mascul¡ o femen¡.
+
+
+Fitxers inclosos
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  ejemplo.cmd - exemple d'£s en espanyol
+  exemple.cmd - exemple d'£s en catal…
+  file_id.diz - descripci¢ breu
+  Numbers.dll - DLL
+  numbers.doc - aquest fitxer
+  sample.cmd  - exemple d'£s en anglŠs
+  numbers.his - hist•ria dels canvis
+
+
+Instalúlaci¢
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  Heu de copiar el fitxer NUMBERS.DLL a un dels directoris inclosos a
+  LIBPATH, o b‚ incloure el directori on hi ha la DLL en aquest
+  par…metre del CONFIG.SYS.
+
+
+Us
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  En ser una funci¢ externa primer cal registrar-la. Per aix• crideu la
+  funci¢ RxFuncAdd del REXX:
+
+    call RxFuncAdd, 'Number', 'numbers', 'Number'
+
+  La funci¢ NUMBER es crida amb tres par…metres:
+
+  El primer ‚s un n£mero (enter, comprŠs entre 0 i 4.294.967.295).
+
+  El segon ‚s un car…cter, que indica el gŠnere en quŠ s'ha de donar el
+  cardinal:
+
+       'm' per mascul¡
+       'f' per femen¡
+
+  Aquest par…metre no t‚ cap efecte en pel n£mero en anglŠs, per• ha de
+  ser-hi i ha de ser un dels indicats.
+
+  El tercer ‚s l'idioma en quŠ s'ha d'obtenir el cardinal:
+
+      'c' per catal…
+      'e' per espanyol
+      'a' per anglŠs
+
+  Per exemple,
+
+    say Number(55422, 'f', 'c')
+
+  d¢na
+
+    cinquanta-cinc mil quatre-centes vint-i-dues
+
+  Vegeu el fitxer EXEMPLE.CMD per a m‚s informaci¢.
+
+
+Com usar la funci¢ des de DeScribe
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  Podeu usar aquesta funci¢ des de qualsevol programa que permeti fer
+  servir REXX. Per exemple, des de DeScribe es pot fer amb la segent
+  macro:
+
+  -------------inici de la macro per a DeScribe------------------------
+  var Numero
+  var Genere
+  var Idioma
+
+  MACRO DeScribeMacro
+      SET MacroDialogTitle to "N£meros"
+      MSET "N£mero a convertir " TOVALUE Numero
+      MSET "GŠnere (M o F) " TOSTRING Genere
+      MSET "Idioma (C, E, A)" TOSTRING Idioma
+      MGET "Entreu el n£mero, el gŠnere i l'idioma."
+      Set Env0 to Numero
+      Set Env1 to Genere
+      Set Env2 to Idioma
+      Set NumRexxParams to 3
+      RunRexxFile "d:\describe\macros\Nombres.cmd"
+      Put RexxReturnString
+  END MACRO
+  ------------------final de la macro per a DeScribe-------------------
+
+  Essent el fitxer d:\describe\macros\Nombres.cmd el segent:
+
+  ------------------inici de nombres.cmd-------------------------------
+  /* par…metres proporcionats per la macro de DeScribe */
+  parse arg Numero, Genere, Idioma
+
+  /* Registrar la funci¢, si no ho est… */
+  if (RxFuncQuery("Number") = 1) then
+     call RxFuncAdd "Number", "numbers", "Number"
+
+  /* cridar la funci¢ amb aquests par…metres */
+  UnNumero = Number(Numero, Genere, Idioma)
+
+  /* retornar el resultat */
+  return UnNumero
+  -----------------final de nombres.cmd--------------------------------
+
+
+Hist•ria dels canvis
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+V. 1.2: * Corregits alguns problemes amb l'anglŠs.
+        * Canvis menors a la documentaci¢.
+V. 1.1: * Catal…, espanyol i anglŠs.
+        * Primera versi¢ publicada a Internet.
+
+
+Garanties
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  No es garanteix, sota cap concepte, que aquesta funci¢ actua tal com
+  s'ha descrit.
+
+  En CAP cas l'autor es fa responsable de possibles problemes, pŠrdues
+  d'informaci¢, o qualsevol altre inconvenient que l'£s d'aquesta DLL
+  pugui comportar.
+
+
+Condicions d'£s i de distribuci¢
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  Podeu usar i copiar aquesta rutina en qualsevol ordinador.
+
+  Podeu incloure-la en altres programes "freeware" i "shareware" sempre
+  que en mencioneu l'autor.
+
+  No inclogueu aquesta rutina en programes comercials sense perm¡s
+  escrit de l'autor.
+
+
+Eines utilitzades
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  La programaci¢ s'ha fet amb CSet++ First Step, i la documentaci¢ s'ha
+  preparat amb QEdit per OS/2.
+
+  L'objectiu d'aquesta DLL era aprendre a construir-ne. La informaci¢
+  per a aconseguir-ho l'he treta de Revista Profesional para
+  Programadores (n£mero 4), Dr. Dobb's Journal (setembre 1994) i la
+  mateixa ajuda del CSet++ FS.
+
+
+L'autor
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  Podeu contactar amb l'autor, Gabriel Massip, per mitj… del correu
+  electr•nic:
+
+    Internet:   gmassip@abaforum.es
+    Fidonet:    2:343/108.42
+
+  S'accepten suggeriments, noves idees i, fins i tot, informaci¢
+  sobre problemes de funcionament!
+
+
+ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+º                       Documentaci¢n en espa¤ol                       º
+ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+¨Para qu‚ sirve esta DLL?
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  Esta DLL proporciona una funci¢n REXX (Number) para OS/2 que devuelve
+  el cardinal de una cantidad (es decir, un n£mero expresado en letras),
+  en espa¤ol, catal n o ingl‚s; para el espa¤ol y catal n el n£mero se
+  puede obtener en masculino o femenino.
+
+
+Ficheros inclu¡dos
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  ejemplo.cmd - ejemplo de uso en espa¤ol
+  exemple.cmd - ejemplo de uso en catal n
+  file_id.diz - descripci¢n breve
+  Numbers.dll - DLL
+  numbers.doc - este fichero
+  sample.cmd  - ejemplo de uso en ingl‚s
+  numbers.his - historia de los cambios
+
+
+Instalaci¢n
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  Copie el fichero NUMBERS.DLL en uno de los directorios inclu¡dos en
+  LIBPATH, o bien incluya el directorio donde reside la DLL en esta
+  sentencia del CONFIG.SYS.
+
+
+Uso
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  Al tratarse de una funci¢n externa primero hay que registrarla. Para
+  eso, llame la funci¢n RxFuncAdd de REXX:
+
+    call RxFuncAdd, 'Number', 'Numbers', 'Number'
+
+  La funci¢n NUMBER se llama con tres par metros:
+
+  El primero es un n£mero (entero, comprendido entre 0 y 4.294.967.295).
+
+  El segundo es un car cter, que indica el g‚nero en que se quiere
+  obtener el cardinal:
+
+       'm' para masculino
+       'f' para femenino
+
+  Este par metro no tiene ning£n efecto para los n£meros en ingl‚s, pero
+  debe estar presente y debe ser uno de los indicados.
+
+  El tercero es el idioma en que se quiere obtener el cardinal:
+
+      'e' para espa¤ol
+      'c' para catal n
+      'a' para ingl‚s
+
+  Por ejemplo,
+
+    say Number(55422, 'f', 'e')
+
+  da
+
+    cincuenta y cinco mil cuatrocientas veintidos
+
+  Para obtener m s informaci¢n, vea el fichero EJEMPLO.CMD.
+
+
+Como usar la funci¢n desde DeScribe
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  Esta funci¢n puede usarse desde cualquier programa que permita usar
+  REXX. Por ejemplo, desde DeScribe se puede hacer con la siguiente
+  macro:
+
+  -------------inicio de la macro para DeScribe-------------------------
+  var Numero
+  var Genero
+  var Idioma
+
+  MACRO DeScribeMacro
+      SET MacroDialogTitle to "N£meros"
+      MSET "N£mero a convertir " TOVALUE Numero
+      MSET "G‚nero (M o F) " TOSTRING Genero
+      MSET "Idioma (C, E, A)" TOSTRING Idioma
+      MGET "Entre el n£mero, el g‚nero y el idioma."
+      Set Env0 to Numero
+      Set Env1 to Genero
+      Set Env2 to Idioma
+      Set NumRexxParams to 3
+      RunRexxFile "d:\describe\macros\Numeros.cmd"
+      Put RexxReturnString
+  END MACRO
+  ------------------final de la macro para DeScribe--------------------
+
+  Siendo el fichero d:\describe\macros\Numeros.cmd el siguiente:
+
+  ------------------inicio de numeros.cmd------------------------------
+  /* par metros proporcionados por la macro de DeScribe */
+  parse arg Numero, Genero, Idioma
+
+  /* Registrar la funci¢n, si no lo est  */
+  if (RxFuncQuery("Number") = 1) then
+     call RxFuncAdd "Number", "numbers", "Number"
+
+  /* llamar a la funci¢n con estos par metros */
+  UnNumero = Number(Numero, Genero, Idioma)
+
+  /* devolver el resultado */
+  return UnNumero
+  -----------------final de numeros.cmd--------------------------------
+
+
+Historia de los cambios
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+V. 1.2: * Corregidos algunos problemas de ingl‚s.
+        * Cambios menores en la documentaci¢n.
+V. 1.1: * Catal n, espa¤ol e ingl‚s.
+        * Primera versi¢n publicada en Internet.
+
+
+Garant¡as
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  No se garantiza, bajo ning£n concepto, que esta funci¢n act£a tal y
+  como se ha descrito y sin errores.
+
+  En NINGUN caso el autor se responsabiliza de posibles problemas,
+  p‚rdidas de informaci¢n, o cualquier otro inconveniente que el uso de
+  esta DLL pueda comportar.
+
+
+Condiciones de uso y distribuci¢n
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  Esta rutina puede usarse y copiarse en cualquier ordenador.
+
+  Esta rutina puede incluirse en otros programas "freeware" y
+  "shareware", siempre que se mencione su autor.
+
+  No incluya esta rutina en programas comerciales sin permiso escrito
+  del autor.
+
+
+Herramientas utilizadas
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  La programaci¢n se ha realizado con CSet++ First Step, y la
+  documentaci¢n se ha preparado con QEdit para OS/2.
+
+  El objetivo de esta DLL era aprender a construirlas. Para conseguirlo
+  he sacado informaci¢n de la Revista Profesional para Programadores
+  (n£mero 4), Dr. Dobb's Journal (septiembre 1994) y de la misma ayuda
+  del CSet++ FS.
+
+
+El autor
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  Puede contactar con el autor, Gabriel Massip, mediante correo
+  electr¢nico:
+
+    Internet:   gmassip@abaforum.es
+    Fidonet:    2:343/108.42
+
+  Se aceptan sugerencias, nuevas ideas y hasta informaci¢n sobre
+  problemas de funcionamiento!
+
+
+ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+º                        English documentation                         º
+ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+What does this DLL do?
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  This DLL implements a REXX function (Number) for OS/2 that returns on
+  number expressed in cardinals, it est, in letters, in English, Catalan
+  or Spanish; for Catalan and Spanish languages the number can be
+  obtained in masculine or feminine.
+
+
+Included files
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  ejemplo.cmd - Spanish sample
+  exemple.cmd - Catalan sample
+  file_id.diz - short description
+  Numbers.dll - DLL
+  numbers.doc - this file
+  sample.cmd  - English sample
+  numbers.his - changes history
+
+
+Installation
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  You must copy the file NUMBERS.DLL into one directory listed in
+  LIBPATH, or include the directory where the DLL resides into this
+  CONFIG.SYS sentence.
+
+
+Use
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  This is an external function. So it must be registered before being
+  used. To do that, call the REXX RxFuncAdd function:
+
+    call RxFuncAdd, 'Number', 'numbers', 'Number'
+
+  The function NUMBER needs three parameters:
+
+  The first one is a number (integer, between  0 and 4,294,967,295).
+
+  The second one is a character, that indicates the gender (masculine or
+  feminine) in which the cardinal will be obtained:
+
+       'm' for masculine
+       'f' for feminine
+
+  This parameter has no effect when the number is obtained in English,
+  but it must be there and must be 'm' or 'f'.
+
+  The third one is the language in which the cardinal will be obtained:
+
+      'a' for English
+      'c' for Catalan
+      'e' for Spanish
+
+  For example,
+
+    say Number(55422, 'f', 'a')
+
+  returns
+
+    fifty five thousand four hundred twenty two
+
+  See the file SAMPLE.CMD to get more information.
+
+
+How to use this function from DeScribe
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  This function can be used from any program that allows the use of
+  REXX. For example, from DeScribe you can use this macro:
+
+  -------------here begins the DeScribe macro--------------------------
+  var Number
+  var Gender
+  var Language
+
+  MACRO DeScribeMacro
+      SET MacroDialogTitle to "Numbers"
+      MSET "Number to convert " TOVALUE Number
+      MSET "Gender (M o F) " TOSTRING Gender
+      MSET "Language (C, E, A)" TOSTRING Language
+      MGET "Enter the number, the gender and the language."
+      Set Env0 to Number
+      Set Env1 to Gender
+      Set Env2 to Language
+      Set NumRexxParams to 3
+      RunRexxFile "d:\describe\macros\Numbers.cmd"
+      Put RexxReturnString
+  END MACRO
+  -------------here ends the DeScribe macro----------------------------
+
+  Being the file d:\describe\macros\Numbers.cmd:
+
+  -------------here begins numbers.cmd---------------------------------
+  /* parameters supplied by DeScribe's macro */
+  parse arg Number, Gender, Language
+
+  /* Register the function, if necessary */
+  if (RxFuncQuery("Number") = 1) then
+     call RxFuncAdd "Number", "numbers", "Number"
+
+  /* call the function using the parameters */
+  OneNumber = Number(Number, Gender, Language)
+
+  /* return the result */
+  return OneNumber
+  -----------------end of numbers.cmd----------------------------------
+
+
+Changes history
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+V. 1.2: * Fixed some problems with English.
+        * Minimal documentation changes.
+V. 1.1: * Catalan, Spanish and English.
+        * First version published in Internet.
+
+
+Warranties
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  The author doesn't warrant, in any form, that this function acts as
+  described.
+
+  In NO case the author is responsible of possible problems, information
+  losing, or any other dammages caused directly or indirectly by the use
+  of this DLL.
+
+
+Usage and distribution
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  This routine can be used and copied in any computer.
+
+  You can include this routine in other freeware or shareware programs
+  if you indicate its author.
+
+  Do not include this routine in commercial programs whithout the
+  written permission of the author.
+
+
+Tools
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  I've used CSet++ First Step to compile the DLL. The documentation has
+  been written using QEdit for OS/2.
+
+  I began to build this DLL in order to learn how to write them. I've
+  got the necessary information from Revista Profesional para
+  Programadores (issue 4), Dr. Dobb's Journal (september 1994) and from
+  the CSet++ FS Help.
+
+
+The author
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+  You can contact the author, Gabriel Massip, via electronic mail:
+
+    Internet:   gmassip@abaforum.es
+    Fidonet:    2:343/108.42
+
+  Suggestions, new ideas and even bug reports are welcome!

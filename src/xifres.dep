@@ -1,0 +1,22 @@
+# IBM Developer's Workframe/2 Make File Creation run at 20:00:48 on 06/23/95
+
+# Make File Creation run in directory:
+#   D:\IBMCPP\PROJECT\XIFRES;
+
+# Assumed INCLUDE environment variable path:
+#   D:\TOOLKT21\C\OS2H;
+#   D:\TOOLKT21\C\OS2H\VDD;
+#   D:\TOOLKT21\ASM\OS2INC;
+#   D:\ibmcpp\INCLUDE;
+#   D:\ibmcpp\IBMCLASS;
+
+
+INCLUDE000=$(INCLUDE)
+
+
+xifres.OBJ:  xifres.c  \
+#  {$(INCLUDE000)}string.h  \
+#  {$(INCLUDE000)}rexxsaa.h  \
+#  {$(INCLUDE000)}stdlib.h  \
+#  {$(INCLUDE000)}stdio.h  \
+   XIFRES.MAK

@@ -1,0 +1,7 @@
+library Numbers initinstance longnames
+protmode
+description 'Numbers'
+data multiple nonshared
+stacksize 4096
+exports
+    Number
